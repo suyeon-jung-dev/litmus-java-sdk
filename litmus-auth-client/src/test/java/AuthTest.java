@@ -16,16 +16,14 @@ public class AuthTest {
         LitmusAuthClient authClient = new LitmusAuthClient(hostUrl, username, password);
 
         System.out.println("### capabilities test");
-        Response response = authClient.capabilities(hostUrl);
+        Response response = authClient.capabilities();
         System.out.println(response.body().string());
 
         System.out.println("### craeteProject test");
-        response = authClient.createProject(
-                hostUrl,
-                "TEST_Project_1");
+        response = authClient.createProject("TEST_Project_1");
         System.out.println(response.body().string());
 
-        LoginResponse loginResponse = authClient.authenticate(hostUrl, username, password);
+        LoginResponse loginResponse = authClient.authenticate(username, password);
         System.out.println("### refresh token test");
         System.out.println("access Token :: " + loginResponse.getAccessToken());
     }
