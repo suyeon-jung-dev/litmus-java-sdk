@@ -1,23 +1,17 @@
 package io.litmuschaos.auth.response;
 
-public class LoginResponse {
+public class TokenCreateResponse {
 
     private String accessToken;
-    private String expiresIn;
     private String type;
 
-    public LoginResponse(String accessToken, String expiresIn, String projectID, String projectRole, String type) {
+    public TokenCreateResponse(String accessToken, String type) {
         this.accessToken = accessToken;
-        this.expiresIn = expiresIn;
         this.type = type;
     }
 
     public String getAccessToken() {
         return accessToken;
-    }
-
-    public String getExpiresIn() {
-        return expiresIn;
     }
 
     public String getType() {

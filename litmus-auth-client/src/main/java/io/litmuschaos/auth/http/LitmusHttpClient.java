@@ -37,6 +37,16 @@ public class LitmusHttpClient implements AutoCloseable{
         return okHttpClient.newCall(request).execute();
     }
 
+    public Response post(String url, String token) throws IOException {
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization", "Bearer " + token)
+                .build();
+        return okHttpClient.newCall(request).execute();
+    }
+
     private String toJson(Object object) {
         Gson gson = new Gson();
         return gson.toJson(object);
