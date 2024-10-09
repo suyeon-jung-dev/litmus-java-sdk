@@ -5,8 +5,10 @@ import com.google.gson.reflect.TypeToken;
 import io.litmuschaos.exception.ApiException;
 import io.litmuschaos.util.HttpResponseHandler;
 import okhttp3.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class LitmusHttpClient implements AutoCloseable{
 
@@ -20,12 +22,29 @@ public class LitmusHttpClient implements AutoCloseable{
         this.host = host;
     }
 
-    public <T> T get(String url, Class<T> responseType) throws IOException, ApiException {
-        Request request = new Request.Builder()
-                .url(host + url)
-                .get()
-                .build();
-        Response response = okHttpClient.newCall(request).execute();
+    public <T> T get(String url, String token, Class<T> responseType) throws IOException, ApiException {
+        return get(url, token, responseType, null);
+    }
+
+    public <T> T get(String url, String token, Class<T> responseType, Map<String, String> requestParamMap) throws IOException, ApiException {
+        HttpUrl.Builder httpUrlBuilder = HttpUrl.get(host + url).newBuilder();
+
+        if (requestParamMap != null) {
+            for(Map.Entry<String, String> param : requestParamMap.entrySet()) {
+                httpUrlBuilder.addQueryParameter(param.getKey(), param.getValue());
+            }
+        }
+
+        Request.Builder requestBuilder = new Request.Builder()
+                .url(httpUrlBuilder.build())
+                .get();
+
+        if (StringUtils.isNotEmpty(token)) {
+            requestBuilder
+                    .header("Authorization", "Bearer " + token);
+        }
+
+        Response response = okHttpClient.newCall(requestBuilder.build()).execute();
         return httpResponseHandler.handleResponse(response, responseType);
     }
 

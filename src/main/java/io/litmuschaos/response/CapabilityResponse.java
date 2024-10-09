@@ -6,12 +6,27 @@ public class CapabilityResponse {
     public Dex getDex() {
         return dex;
     }
-}
 
-class Dex {
-    private boolean enabled;
+    @Override
+    public String toString() {
+        return "CapabilityResponse{" +
+                "dex=" + dex +
+                '}';
+    }
 
-    public boolean isEnabled() {
-        return enabled;
+    public static class Dex {
+        private boolean enabled;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        @Override
+        public String toString() {
+            return "Dex{" +
+                    "enabled=" + enabled +
+                    '}';
+        }
     }
 }
+

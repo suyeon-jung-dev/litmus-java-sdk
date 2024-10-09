@@ -30,6 +30,9 @@ public class HttpResponseHandler {
     }
 
     private <T> T transform(String response, Type responseType) {
+        if (responseType.equals(String.class)) {
+            return (T) response;
+        }
         return gson.fromJson(response, responseType);
     }
 

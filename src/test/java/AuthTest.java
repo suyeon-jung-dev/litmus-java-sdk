@@ -14,7 +14,10 @@ public class AuthTest {
         LitmusClient authClient = new LitmusClient(hostUrl, username, password);
 
         System.out.println("### capabilities test");
-        var capabilities = authClient.capabilities();
+
+        System.out.println(authClient.capabilities());
+
+        var capabilities = authClient.listProjects(0, 2, "name", true);
         System.out.println(capabilities);
 
 //        System.out.println("### createProject test");
